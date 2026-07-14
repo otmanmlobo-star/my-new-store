@@ -1,14 +1,15 @@
 <?php
-// front controller
+// front controller (updated): routes for admin
 require_once __DIR__.'/../app/init.php';
 
 use App\Core\Database;
 use App\Controllers\HomeController;
 use App\Controllers\AuthController;
 use App\Controllers\ProductController;
+use App\Controllers\AdminController;
+use App\Controllers\AdminAuthController;
 
-$db = new Database($config['db']);
-$pdo = $db->pdo();
+$db = new App\Core\Database($config['db']);
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $path = trim($path, '/');
@@ -16,7 +17,6 @@ $segments = explode('/', $path);
 
 session_start();
 
-// Basic routing
 if ($path === '' || $path === 'index.php') {
     $ctrl = new HomeController($db);
     $ctrl->index();
@@ -27,6 +27,11 @@ if ($path === 'logout') { $ctrl = new AuthController($db); $ctrl->logout(); exit
 if ($path === 'register') { $ctrl = new AuthController($db); $ctrl->register(); exit; }
 if ($segments[0] === 'product' && isset($segments[1])) { $ctrl = new ProductController($db); $ctrl->view((int)$segments[1]); exit; }
 if ($path === 'seller/upload') { $ctrl = new ProductController($db); $ctrl->upload(); exit; }
+
+// admin routes
+if ($path === 'admin') { $ctrl = new AdminController($db); $ctrl->index(); exit; }
+if ($path === 'admin/login') { $ctrl = new AdminAuthController($db); $ctrl->login(); exit; }
+if ($path === 'admin/logout') { $ctrl = new AdminAuthController($db); $ctrl->logout(); exit; }
 
 // static files and 404
 http_response_code(404);

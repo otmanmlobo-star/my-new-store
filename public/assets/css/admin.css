@@ -1,0 +1,5 @@
+/* Admin styles */
+#admin-root{min-height:100vh}
+.sidebar{width:220px;min-height:100vh}
+.sidebar .nav-link{color:rgba(255,255,255,0.85)}
+.card{border-radius:6px}
