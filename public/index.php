@@ -1,5 +1,6 @@
 <?php
-// front controller (updated): routes for admin
+// add new routes for checkout in the front controller
+// (This file replaces public/index.php with added routes — keep other routes unchanged)
 require_once __DIR__.'/../app/init.php';
 
 use App\Core\Database;
@@ -8,6 +9,7 @@ use App\Controllers\AuthController;
 use App\Controllers\ProductController;
 use App\Controllers\AdminController;
 use App\Controllers\AdminAuthController;
+use App\Controllers\CheckoutController;
 
 $db = new App\Core\Database($config['db']);
 
@@ -27,6 +29,11 @@ if ($path === 'logout') { $ctrl = new AuthController($db); $ctrl->logout(); exit
 if ($path === 'register') { $ctrl = new AuthController($db); $ctrl->register(); exit; }
 if ($segments[0] === 'product' && isset($segments[1])) { $ctrl = new ProductController($db); $ctrl->view((int)$segments[1]); exit; }
 if ($path === 'seller/upload') { $ctrl = new ProductController($db); $ctrl->upload(); exit; }
+
+// checkout routes
+if ($path === 'cart') { $ctrl = new CheckoutController($db); $ctrl->cart(); exit; }
+if ($path === 'checkout') { $ctrl = new CheckoutController($db); $ctrl->checkout(); exit; }
+if ($segments[0] === 'invoice' && isset($segments[1])) { $ctrl = new CheckoutController($db); $ctrl->invoice((int)$segments[1]); exit; }
 
 // admin routes
 if ($path === 'admin') { $ctrl = new AdminController($db); $ctrl->index(); exit; }
