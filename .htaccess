@@ -1,0 +1,14 @@
+# Apache rewrite rules
+RewriteEngine On
+RewriteBase /
+
+# Redirect all requests to public/index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/index.php [QSA,L]
+
+# Protect config and app folders
+<FilesMatch "(config|app)\/.*(php)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>

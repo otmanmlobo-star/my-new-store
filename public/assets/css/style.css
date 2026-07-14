@@ -1,0 +1,4 @@
+/* Basic styles */
+body{background:#0f1724;color:#e6eef8}
+.card{border-radius:8px}
+.jumbotron{background:linear-gradient(90deg,#0b1220,#102238);color:#fff}
